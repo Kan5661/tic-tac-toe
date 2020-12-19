@@ -1,0 +1,70 @@
+import pygame
+import sys
+
+# tic tac toe by Kan
+# left click on squares to draw
+# press "o" on key board to to draw circles
+# press "x" on keyboard to draw crosses
+# press "r" to reset the board
+
+pygame.init()
+clock = pygame.time.Clock()
+screen = pygame.display.set_mode((300, 300))
+screen.fill('white')
+
+square1 = pygame.Rect(0, 0, 100, 100)
+square2 = pygame.Rect(100, 0, 100, 100)
+square3 = pygame.Rect(200, 0, 100, 100)
+square4 = pygame.Rect(0, 100, 100, 100)
+square5 = pygame.Rect(100, 100, 100, 100)
+square6 = pygame.Rect(200, 100, 100, 100)
+square7 = pygame.Rect(0, 200, 100, 100)
+square8 = pygame.Rect(100, 200, 100, 100)
+square9 = pygame.Rect(200, 200, 100, 100)
+list_of_squares = (square1, square2, square3, square4, square5, square6, square7, square8, square9)
+
+game_active = True
+num = 1
+intro = True
+
+
+def reset():
+    screen.fill('white')
+    pygame.draw.aaline(screen, 'black', (100, 0), (100, 300))
+    pygame.draw.aaline(screen, 'black', (200, 0), (200, 300))
+    pygame.draw.aaline(screen, 'black', (0, 100), (300, 100))
+    pygame.draw.aaline(screen, 'black', (0, 200), (300, 200))
+
+
+screen.fill('white')
+
+while game_active:
+    pygame.draw.aaline(screen, 'black', (100, 0), (100, 300))
+    pygame.draw.aaline(screen, 'black', (200, 0), (200, 300))
+    pygame.draw.aaline(screen, 'black', (0, 100), (300, 100))
+    pygame.draw.aaline(screen, 'black', (0, 200), (300, 200))
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            game_active = False
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_x:
+                num = 1
+            if event.key == pygame.K_o:
+                num = 2
+            if event.key == pygame.K_r:
+                reset()
+    for i in list_of_squares:
+        mouse_pos = pygame.mouse.get_pos()
+        if num == 1 and i.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.draw.line(screen, 'black', i.topleft, i.bottomright, 5)
+            pygame.draw.line(screen, 'black', i.topright, i.bottomleft, 5)
+
+    for i in list_of_squares:
+        if num == 2 and i.collidepoint(mouse_pos) and event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.draw.circle(screen, 'black', i.center, 45)
+            pygame.draw.circle(screen, 'white', i.center, 40)
+
+    pygame.display.update()
+    clock.tick(60)
